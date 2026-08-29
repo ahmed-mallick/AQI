@@ -1,16 +1,3 @@
-"""
-Karachi AQI Predictor — Streamlit Dashboard
-
-    streamlit run app/streamlit_app.py
-
-Shows:
-  - Current AQI (US EPA scale, computed from live pollutant data)
-  - 3-day forecast (+24h / +48h / +72h) from the trained models
-  - A hazardous-AQI alert banner when any forecasted value >= threshold
-  - SHAP feature-importance explanation for each forecast
-  - A quick historical trend chart (EDA-lite) pulled from the feature store
-"""
-
 import sys
 import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))

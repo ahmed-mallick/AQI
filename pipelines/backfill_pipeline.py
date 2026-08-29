@@ -1,20 +1,3 @@
-"""
-Historical Data Backfill
-
-Pulls as much history as OpenWeather's Air Pollution History endpoint has
-(hourly, back to 2020-11-27) plus matching historical weather from
-Open-Meteo's free archive, engineers the full feature table (including
-lag/rolling/target columns) and pushes it into the Hopsworks Feature Group.
-
-Run once before the first training run, and any time you want to extend
-history further back:
-
-    python -m pipelines.backfill_pipeline --days 365
-
-By default it backfills the last 180 days (a good balance between having
-enough training data and keeping the first run fast).
-"""
-
 from __future__ import annotations
 
 import argparse
@@ -80,6 +63,12 @@ def main(days: int):
     print(f"Backfilling {len(feature_df)} rows into the Hopsworks feature group...")
     insert_features(feature_df[FEATURE_COLUMNS])
     print("Backfill complete.")
+
+
+import requests
+resp = requests.get("https://c.app.hopsworks.ai/hopsworks-api/api/variables/hopsworks", timeout=10)
+print(resp.status_code)
+print(resp.text[:500])
 
 
 if __name__ == "__main__":

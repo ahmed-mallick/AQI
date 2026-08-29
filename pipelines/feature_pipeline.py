@@ -1,19 +1,8 @@
-"""
-Hourly Feature Pipeline
-
-Runs every hour (see .github/workflows/feature_pipeline.yml). Fetches the
-last few days of pollution + weather data (enough to correctly recompute
-the 48h lag/rolling features), engineers the feature table, and upserts
-the rows into the Hopsworks Feature Group. Because rows are keyed by
-`event_id` (unix timestamp), re-inserting overlapping rows simply updates
-them rather than duplicating — this makes the job safe to re-run.
-
-    python -m pipelines.feature_pipeline
-"""
-
 from __future__ import annotations
 
 from datetime import datetime, timedelta, timezone
+
+from src.hopsworks_utils import insert_features
 
 import pandas as pd
 
@@ -74,15 +63,13 @@ def main():
         print("No complete rows to insert this run (not enough lag history yet).")
         return
 
-    # Ensure numeric columns match the Hopsworks feature group's expected
-    # dtypes (double), regardless of whether this run's values happen to be
-    # whole numbers (which pandas/pyarrow would otherwise infer as int).
     exclude_cols = {"event_id", "datetime_utc"}
 
-    # Match dtypes to what the Hopsworks feature group actually expects,
-    # instead of guessing — avoids float/int mismatches like this.
+    # Fetch the feature group once and reuse it for both the schema check
+    # and the actual insert — avoids logging in twice.
     from src.hopsworks_utils import get_or_create_feature_group
-    fg_schema = {f.name: f.type for f in get_or_create_feature_group().features}
+    fg = get_or_create_feature_group()
+    fg_schema = {f.name: f.type for f in fg.schema}
 
     int_types = {"int", "bigint"}
     for col in feature_df.columns:
@@ -94,6 +81,9 @@ def main():
         elif expected in int_types and pd.api.types.is_numeric_dtype(feature_df[col]):
             feature_df[col] = feature_df[col].round().astype("int64")
 
+    print(f"Upserting {len(feature_df)} rows (last {LOOKBACK_HOURS}h window) into Hopsworks...")
+    fg.insert(feature_df[FEATURE_COLUMNS], write_options={"wait_for_job": True})
+    print("Feature pipeline run complete.")
 
 if __name__ == "__main__":
     main()

@@ -1,22 +1,3 @@
-"""
-Training Pipeline
-
-Runs daily (see .github/workflows/training_pipeline.yml). Reads all
-features currently in the Hopsworks Feature Store, computes the
-target_aqi_24h / target_aqi_48h / target_aqi_72h labels from the AQI time
-series, trains three model families per horizon:
-
-    - Random Forest (scikit-learn)
-    - Ridge Regression (scikit-learn)
-    - A small feed-forward neural network (TensorFlow/Keras)
-
-evaluates each with RMSE, MAE and R^2 on a held-out time-based test split,
-picks the best model per horizon, and uploads it (plus its metrics) to the
-Hopsworks Model Registry.
-
-    python -m pipelines.training_pipeline
-"""
-
 from __future__ import annotations
 
 import os
@@ -42,7 +23,7 @@ TEST_FRACTION = 0.15
 
 def load_feature_data() -> pd.DataFrame:
     fg = get_or_create_feature_group()
-    get_or_create_feature_view(fg)  # ensures the feature view exists for the app/inference side too
+    get_or_create_feature_view(fg)  
     df = fg.read()
     df = df.sort_values("datetime_utc").reset_index(drop=True)
     return df

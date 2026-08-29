@@ -1,16 +1,3 @@
-"""
-Thin wrapper around the OpenWeather APIs used by this project:
-
-- Current + forecast air pollution:  /data/2.5/air_pollution[/forecast]
-- Historical air pollution:          /data/2.5/air_pollution/history
-- Current weather:                   /data/2.5/weather
-- 5-day / 3-hour weather forecast:   /data/2.5/forecast
-
-All functions return plain Python dicts/lists of dicts (one dict per
-hourly reading) so downstream code doesn't need to know about
-OpenWeather's exact JSON shape.
-"""
-
 from __future__ import annotations
 
 import time

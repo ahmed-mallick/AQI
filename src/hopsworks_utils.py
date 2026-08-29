@@ -1,8 +1,3 @@
-"""
-Small helper layer around the Hopsworks Python SDK so pipeline scripts
-don't repeat connection/feature-group/model-registry boilerplate.
-"""
-
 from __future__ import annotations
 
 import hopsworks

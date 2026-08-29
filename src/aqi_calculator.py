@@ -1,19 +1,5 @@
-"""
-Converts raw pollutant concentrations (as returned by OpenWeather's Air
-Pollution API, in ug/m3) into the standard US EPA Air Quality Index (0-500).
-
-OpenWeather's own `main.aqi` field is a coarse 1-5 index, not the AQI most
-people mean when they say "AQI" (the AQICN/EPA style 0-500 number). This
-module computes the real thing from PM2.5, PM10, O3, NO2, SO2 and CO using
-the official EPA breakpoint tables, so the project's target variable is
-comparable to what aqicn.org / IQAir report for Karachi.
-"""
-
 from __future__ import annotations
 
-# EPA breakpoint tables: (C_low, C_high, I_low, I_high)
-# Concentrations: PM2.5 & PM10 in ug/m3 (24h avg approximated from hourly here),
-# O3 in ppb (8h), CO in ppm (8h), SO2 in ppb (1h), NO2 in ppb (1h)
 PM25_BREAKPOINTS = [
     (0.0, 12.0, 0, 50),
     (12.1, 35.4, 51, 100),
@@ -92,14 +78,7 @@ def _ugm3_to_ppm(conc_ugm3: float, molecular_weight: float) -> float:
 
 
 def compute_us_aqi(pm2_5: float, pm10: float, o3: float, no2: float, so2: float, co: float) -> dict:
-    """
-    Given hourly pollutant concentrations in ug/m3 (OpenWeather's native units),
-    return the overall US AQI (max of sub-indices) plus each sub-index.
-
-    Note: EPA officially uses 24h/8h averages for some pollutants; for a
-    real-time/hourly pipeline we approximate using instantaneous readings,
-    which is the same simplification most open-source AQI trackers make.
-    """
+   
     sub_indices = {
         "aqi_pm2_5": _linear_aqi(pm2_5, PM25_BREAKPOINTS),
         "aqi_pm10": _linear_aqi(pm10, PM10_BREAKPOINTS),

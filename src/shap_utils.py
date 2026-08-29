@@ -1,11 +1,3 @@
-"""
-SHAP-based feature importance explanations for the trained models.
-Only Random Forest and Ridge models get a fast, exact-ish explainer here
-(TreeExplainer / LinearExplainer); if the best model for a horizon happens
-to be the TensorFlow NN, we fall back to KernelExplainer on a small sample
-since it's model-agnostic but slower.
-"""
-
 from __future__ import annotations
 
 import numpy as np

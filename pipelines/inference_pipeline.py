@@ -1,14 +1,3 @@
-"""
-Inference Pipeline
-
-Loads the latest engineered feature row from the Hopsworks Feature Store
-and the best model for each horizon (+24h, +48h, +72h) from the Model
-Registry, and produces the "next 3 days" AQI forecast. Used by the
-Streamlit dashboard (app/streamlit_app.py) and can also be run standalone:
-
-    python -m pipelines.inference_pipeline
-"""
-
 from __future__ import annotations
 
 import os

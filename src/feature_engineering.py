@@ -1,8 +1,3 @@
-"""
-Turns raw (pollutant + weather) hourly rows into the final feature table
-that gets written to the Hopsworks Feature Group, and later read back for
-training / inference.
-"""
 
 from __future__ import annotations
 
@@ -53,7 +48,7 @@ def add_time_features(df: pd.DataFrame) -> pd.DataFrame:
     df["day"] = dt_local.dt.day
     df["month"] = dt_local.dt.month
     df["day_of_week"] = dt_local.dt.dayofweek
-    df["is_weekend"] = df["day_of_week"].isin([4, 5]).astype(int)  # Fri/Sat weekend in Pakistan
+    df["is_weekend"] = df["day_of_week"].isin([4, 5]).astype(int) 
     df["hour_sin"] = np.sin(2 * np.pi * df["hour"] / 24)
     df["hour_cos"] = np.cos(2 * np.pi * df["hour"] / 24)
     df["month_sin"] = np.sin(2 * np.pi * df["month"] / 12)
@@ -89,7 +84,7 @@ def build_feature_table(pollution_df: pd.DataFrame, weather_df: pd.DataFrame, wi
 
     df["city"] = "Karachi"
     # Hopsworks primary key needs a stable unique id
-    df["event_id"] = df["datetime_utc"].astype("int64") // 10**9  # unix seconds as int PK
+    df["event_id"] = df["datetime_utc"].astype("int64") // 10**9  
     return df
 
 

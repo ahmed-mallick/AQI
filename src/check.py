@@ -1,6 +1,6 @@
 import requests, os
 from dotenv import load_dotenv
-load_dotenv()  # remove this line if you don't use a .env file
+load_dotenv() 
 
 api_key = os.environ.get("HOPSWORKS_API_KEY")
 print("Key loaded:", bool(api_key), "length:", len(api_key) if api_key else 0)
