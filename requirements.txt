@@ -57,6 +57,7 @@ grpcio==1.83.1
 h11==0.16.0
 h5py==3.16.0
 hopsworks==5.0.6
+hopsworks==3.4.3
 hopsworks-aiomysql==0.2.2
 hopsworks-apigen==1.0.5
 hsml==3.7.2
