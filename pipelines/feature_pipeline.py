@@ -79,8 +79,11 @@ def main():
         if expected == "double" and pd.api.types.is_numeric_dtype(feature_df[col]):
             feature_df[col] = feature_df[col].astype(float)
         elif expected in int_types and pd.api.types.is_numeric_dtype(feature_df[col]):
-            feature_df[col] = feature_df[col].round().astype("int64")
-
+            if expected == "int":
+                feature_df[col] = feature_df[col].round().astype("int32")
+            else:
+                feature_df[col] = feature_df[col].round().astype("int64")
+                
     print(f"Upserting {len(feature_df)} rows (last {LOOKBACK_HOURS}h window) into Hopsworks...")
     fg.insert(feature_df[FEATURE_COLUMNS], write_options={"wait_for_job": True})
     print("Feature pipeline run complete.")
