@@ -8,7 +8,7 @@
 
 ### 📄 Project Report
 The complete internship project report detailing the methodology, architecture, and model evaluation can be found here: 
-**[Project_Report.pdf](./Project_Report.pdf)**
+**[Report.docx](./Report.docx)**
 
 
 Predicting Karachi's Air Quality Index (AQI) for the next 3 days using a
