@@ -4,7 +4,7 @@
 **Author:** Ahmed Mallick | **Company:** 10Pearls (Data Science Internship)
 
 ### 🚀 Live Application
-**[Click here to view the deployed Streamlit App](https://xhtmyjxvofg2nrmkeznobq.streamlit.app)**
+**[Click here to view the deployed Streamlit App](https://phkerauxjdnfruzfbqwyru.streamlit.app)**
 
 ### 📄 Project Report
 The complete internship project report detailing the methodology, architecture, and model evaluation can be found here: 
@@ -116,7 +116,7 @@ categories, a hazardous-AQI alert banner, a SHAP feature-importance chart
 per horizon, and a 14-day historical trend.
 
 To deploy publicly (free): push this repo to GitHub, then deploy on
-[Streamlit Community Cloud](https://xhtmyjxvofg2nrmkeznobq.streamlit.app), pointing it at
+[Streamlit Community Cloud](https://phkerauxjdnfruzfbqwyru.streamlit.app), pointing it at
 `app/streamlit_app.py` and adding `OPENWEATHER_API_KEY`,
 `HOPSWORKS_API_KEY`, and `HOPSWORKS_PROJECT_NAME` as app secrets.
 
